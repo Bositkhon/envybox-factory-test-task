@@ -34,23 +34,46 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      errors: {},
+      feedbackResponseSuccess: false,
+      feedbackResponseError: false,
       form: {
-        full_name: '',
-        phone: '',
-        content: ''
+        full_name: "",
+        phone: "",
+        content: ""
       }
     };
   },
   methods: {
-    submit: function submit(event) {
-      event.preventDefault();
-      console.log(this.form);
-    },
-    reset: function reset() {
-      console.log(this.form);
+    submit: function submit() {
+      var _this = this;
+
+      this.$axios.post("feedbacks", this.form).then(function (response) {
+        _this.feedbackResponseSuccess = true;
+      })["catch"](function (error) {
+        _this.errors = error.response.data.errors;
+        _this.feedbackResponseError = true;
+      });
     }
   }
 });
@@ -127,13 +150,64 @@ var render = function() {
       _c(
         "b-row",
         {
-          staticClass: "justify-content-center align-items-center flex-column"
+          ref: "form",
+          staticClass: "justify-content-center align-items-center vh-100"
         },
         [
           _c(
             "b-col",
             { attrs: { lg: "6", sm: "12", md: "12" } },
             [
+              _c(
+                "b-alert",
+                {
+                  attrs: {
+                    show: _vm.feedbackResponseSuccess,
+                    variant: "success",
+                    dismissible: ""
+                  }
+                },
+                [
+                  _c("h4", { staticClass: "alert-heading" }, [
+                    _vm._v("Thank you!")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", [_vm._v("The feedback has been sent!")])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "b-alert",
+                {
+                  attrs: {
+                    show: _vm.feedbackResponseError,
+                    variant: "danger",
+                    dismissible: ""
+                  }
+                },
+                [
+                  _c("h4", { staticClass: "alert-heading" }, [
+                    _vm._v("Something went wrong!")
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.errors, function(messages, field) {
+                    return _c(
+                      "div",
+                      { key: field },
+                      _vm._l(messages, function(message) {
+                        return _c("p", { key: message }, [
+                          _vm._v(
+                            "\n            " + _vm._s(message) + "\n          "
+                          )
+                        ])
+                      }),
+                      0
+                    )
+                  })
+                ],
+                2
+              ),
+              _vm._v(" "),
               _c(
                 "b-card",
                 [
@@ -142,7 +216,14 @@ var render = function() {
                     [
                       _c(
                         "b-form",
-                        { on: { submit: _vm.submit, reset: _vm.reset } },
+                        {
+                          on: {
+                            submit: function($event) {
+                              $event.preventDefault()
+                              return _vm.submit($event)
+                            }
+                          }
+                        },
                         [
                           _c(
                             "b-form-group",
@@ -206,7 +287,13 @@ var render = function() {
                           _vm._v(" "),
                           _c(
                             "b-button",
-                            { attrs: { block: "", variant: "primary" } },
+                            {
+                              attrs: {
+                                block: "",
+                                type: "submit",
+                                variant: "primary"
+                              }
+                            },
                             [_vm._v("Submit")]
                           )
                         ],

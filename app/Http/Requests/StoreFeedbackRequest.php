@@ -26,11 +26,11 @@ class StoreFeedbackRequest extends FormRequest
         return [
             'full_name' => [
                 'required',
-                'alpha'
+                'string'
             ],
             'phone' => [
                 'required',
-                'regex:/^\+998(\d{2})(\d{7)$/',
+                'regex:/^\+998\d{2}\d{7}$/',
             ],
             'content' => [
                 'required',
