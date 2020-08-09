@@ -15,7 +15,7 @@ class FileRepositoryFactory implements RepositoryFactory
         if (Storage::exists($directoryPath)) {
             $this->directoryPath = $directoryPath;
         } else {
-            $this->directoryPath = storage_path('/app/public/');
+            $this->directoryPath = $this->fallbackDirectoryPath();
         }
     }
 
@@ -23,4 +23,10 @@ class FileRepositoryFactory implements RepositoryFactory
     {
         return new FileRepository($this->directoryPath);
     }
+
+    protected function fallbackDirectoryPath()
+    {
+        return storage_path('/app/public');
+    }
+
 }

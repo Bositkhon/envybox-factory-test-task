@@ -16,12 +16,17 @@ class DbRepositoryFactory implements RepositoryFactory
         if (Config::has($configKey)) {
             $this->connection = $connection;
         } else {
-            $this->connection = Config::get('database.default');
+            $this->connection = $this->fallbackConnection();
         }
     }
 
     public function getRepository()
     {
         return new DbRepository($this->connection);
+    }
+
+    protected function fallbackConnection()
+    {
+        return Config::get('database.default');
     }
 }

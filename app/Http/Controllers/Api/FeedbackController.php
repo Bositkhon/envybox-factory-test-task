@@ -7,21 +7,27 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreFeedbackRequest;
 use App\RepositoryFactories\DbRepositoryFactory;
 use App\RepositoryFactories\FileRepositoryFactory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class FeedbackController extends Controller
 {
-    public function store()
+    public function store(StoreFeedbackRequest $request)
     {
         $factory = new DbRepositoryFactory();
         $repository = $factory->getRepository();
 
-        $feedback = new Feedback([
-            'full_name' => 'Bositkhon Shoumarov',
-            'phone' => '+99899880666',
-            'content' => 'Something happened'
-        ]);
+        $feedback = new Feedback($request->all());
 
         $repository->save($feedback);
+
+        return response()->json([
+            'meta' => [
+                'success' => true,
+                'message' => 'Feedback has been saved',
+                'status_code' => Response::HTTP_OK
+            ]
+        ], Response::HTTP_OK);
     }
 }
