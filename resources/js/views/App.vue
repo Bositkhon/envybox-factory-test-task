@@ -1,22 +1,11 @@
 <template>
-  <div>
-    <h1>Vue Router Demo App</h1>
-
-    <p>
-      <router-link :to="{ name: 'Home' }">Home</router-link>|
-      <router-link :to="{ name: 'Test' }">Hello World</router-link>
-    </p>
-
-    <div class="container">
-      <router-view></router-view>
-    </div>
-  </div>
+  <router-view></router-view>      
 </template>
 
 <script>
 export default {
   created() {
-    console.log("created");
+    console.log(this.$route);
   },
 };
 </script>

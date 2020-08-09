@@ -9,13 +9,13 @@ const router = new VueRouter({
     {
       path: '/',
       name: 'Home',
-      component: () => import('@views/Home')
+      component: () => import('@views/Home'),
     },
     {
-      path: '/test',
-      name: 'Test',
-      component: () => import('@views/Test')
-    },
+      path: '/example',
+      name: 'Example',
+      component: () => import('@components/ExampleComponent')
+    }
   ]
 });
 

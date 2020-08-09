@@ -13,10 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('app');
-// });
+Route::any('{vue?}', function () {
+    return view('app');
+})->where('vue', '^(?!api).*$');
 
-Route::fallback(function () {
+Route::get('/', function () {
     return view('app');
 });
+
+// Route::fallback(function () {
+//     return view('app');
+// });
