@@ -1,6 +1,6 @@
 <template>
   <b-container>
-    <b-row class="justify-content-center align-items-center vh-100" ref="form">
+    <b-row class="justify-content-center align-items-center vh-100">
       <b-col lg="6" sm="12" md="12">
         <b-alert :show="isError === false" variant="success" dismissible>
           <h4 class="alert-heading">Thank you!</h4>
@@ -16,7 +16,7 @@
         </b-alert>
         <b-card>
           <b-card-body>
-            <b-form @submit.prevent="submit">
+            <b-form @submit.prevent="submit" ref="form">
               <b-form-group label-for="full_name">
                 <b-form-input v-model="form.full_name" id="full_name" placeholder="Full name"></b-form-input>
               </b-form-group>
@@ -57,6 +57,7 @@ export default {
         .post("feedbacks", this.form)
         .then((response) => {
           this.isError = false;
+          this.$refs['form'].reset();
         })
         .catch(error => {
           this.errors = error.response.data.errors;

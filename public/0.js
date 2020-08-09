@@ -69,6 +69,8 @@ __webpack_require__.r(__webpack_exports__);
 
       this.$axios.post("feedbacks", this.form).then(function (response) {
         _this.isError = false;
+
+        _this.$refs['form'].reset();
       })["catch"](function (error) {
         _this.errors = error.response.data.errors;
         _this.isError = true;
@@ -99,10 +101,7 @@ var render = function() {
     [
       _c(
         "b-row",
-        {
-          ref: "form",
-          staticClass: "justify-content-center align-items-center vh-100"
-        },
+        { staticClass: "justify-content-center align-items-center vh-100" },
         [
           _c(
             "b-col",
@@ -167,6 +166,7 @@ var render = function() {
                       _c(
                         "b-form",
                         {
+                          ref: "form",
                           on: {
                             submit: function($event) {
                               $event.preventDefault()

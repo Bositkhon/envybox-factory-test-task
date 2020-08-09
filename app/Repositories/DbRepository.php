@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Contracts\Repository;
 use App\Feedback;
-use Illuminate\Support\Facades\DB;
 
 class DbRepository implements Repository
 {
@@ -18,12 +17,8 @@ class DbRepository implements Repository
 
     public function save(Feedback $feedback) : bool
     {
-        return DB::connection($this->connection)
-            ->table('feedbacks')
-            ->insert([
-                'full_name' => $feedback->full_name,
-                'phone' => $feedback->phone,
-                'content' => $feedback->content
-            ]);
+        $feedback->setConnection($this->connection);
+
+        return $feedback->save();
     }
 }

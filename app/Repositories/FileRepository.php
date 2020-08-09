@@ -23,11 +23,13 @@ class FileRepository implements Repository
 
         $fullPath = $this->directoryPath . DIRECTORY_SEPARATOR . $fileName;
 
+        $attributes = $feedback->getAttributes();
+
         $file = fopen($fullPath, 'w');
 
-        fwrite($file, 'Full name:' . $feedback->full_name . PHP_EOL);
-        fwrite($file, 'Phone:' . $feedback->phone . PHP_EOL);
-        fwrite($file, 'Content:' . $feedback->content . PHP_EOL);
+        foreach ($attributes as $attribute => $value) {
+            fwrite($file, $attribute . ':' . $value . PHP_EOL);
+        }
 
         fclose($file);
     }

@@ -12,7 +12,8 @@ class DbRepositoryFactory implements RepositoryFactory
 
     public function __construct($connection = null)
     {
-        $configKey = 'database.' . $connection;
+        $configKey = 'database.connections.' . $connection;
+
         if (Config::has($configKey)) {
             $this->connection = $connection;
         } else {
